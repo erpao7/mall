@@ -42,7 +42,7 @@ import RecommendView from "./childComps/RecommendView.vue";
 import FeatureView from "./childComps/FeatureView.vue";
 
 import { getHomeMultidata, getHomeGoods } from "../../network/home";
-import { debounce } from "@/common/utils";
+import { itemListenerMixin } from "../../common/mixin";
 export default {
   name: "Home",
   components: {
@@ -55,6 +55,7 @@ export default {
     ByScroll,
     BackTop
   },
+  mixins:[itemListenerMixin],
   data() {
     return {
       banners: [],
@@ -67,8 +68,11 @@ export default {
       currentType: "pop",
       isShow:false,
       tabOffsetTop:0,
-      isTabFixed:false
+      isTabFixed:false,
     };
+  },
+  deactivated() {
+    this.$bus.$off('itemLoad')
   },
   created() {
     //1.请求多个数据
@@ -79,13 +83,13 @@ export default {
     this.getHomeGoods("sell");
   },
   mounted() {
-    const refresh=debounce(this.$refs.scroll.refresh,200)
-    //使用全局事件总线监听gooditem里面图片加载完成
-    this.$bus.$on('itemImageLoad',()=>{
-      //console.log(11);  //直接执行refresh，refresh会被执行30次 ，可以将refresh传入防抖debounce函数中，生成一个新的函数
-      // this.scroll&&this.$refs.scroll.refresh()
-      refresh()
-    })
+    // const refresh=debounce(this.$refs.scroll.refresh,200)
+    // //使用全局事件总线监听gooditem里面图片加载完成
+    // this.$bus.$on('itemImageLoad',()=>{
+    //   //console.log(11);  //直接执行refresh，refresh会被执行30次 ，可以将refresh传入防抖debounce函数中，生成一个新的函数
+    //   // this.scroll&&this.$refs.scroll.refresh()
+    //   refresh()
+    // })
 
   },
   
