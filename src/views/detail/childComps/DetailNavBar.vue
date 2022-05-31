@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav-bar>
+    <nav-bar class="navclass">
       <div slot="left" class="left" @click="backClick">
           <img src="../../../assets/img/common/返回.svg" alt="">
       </div>
@@ -43,6 +43,9 @@ export default {
 </script>
 
 <style scoped>
+.navclass {
+  z-index: 10;
+}
 .title {
   display: flex;
   font-size: 13px;

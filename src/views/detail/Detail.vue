@@ -23,7 +23,7 @@
       ></detail-comment-info>
       <goods-list :goods="recommends" ref="recommend"></goods-list>
     </by-scroll>
-    <detail-bottom-bar></detail-bottom-bar>
+    <detail-bottom-bar @addCart="addCar"></detail-bottom-bar>
     <back-top @click.native="backClick" v-show="isShow" ></back-top>
   </div>
 </template>
@@ -125,7 +125,6 @@ export default {
       this.recommends = res.data.list;
     });
   },
-  mounted() {},
   methods: {
     imageLoad() {
       this.refresh();
@@ -161,6 +160,20 @@ export default {
       this.$refs.scroll.scrollTo(0,0,500)
       // this.$refs.scroll.msg;
     },
+    addCar(){
+      // console.log(11);
+      //获取购物车需要展示的信息
+      const product={}
+      product.image=this.topImages[0]
+      product.title=this.goods.title
+      product.desc=this.goods.desc
+      product.price=this.goods.realPrice
+      product.iid=this.iid
+      //将商品添加到购物车
+      // this.$store.commit('addCart',product)
+      this.$store.dispatch('addCart',product)
+
+    }
   },
   destroyed() {
     this.$bus.$off("itemImageLoad");
